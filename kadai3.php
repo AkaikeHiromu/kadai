@@ -17,7 +17,8 @@ class Person {
 	}
 
 	// 自己紹介文を生成
-	public function selfIntroduction(){
+	//子クラス以外でここのメソッドは使わないため、アクセス修飾子はprotected
+	protected function selfIntroduction(){
 		if($this->gender == 'm'){
 			$gendata = '男性';
 		}else if($this->gender == 'f'){
@@ -31,7 +32,7 @@ class Person {
 	//現在の年齢を出すメソッド
 	public function getAge($birthday){
 		$today = date('Ymd');
-		$this->age = floor(((int)$today - (int)$birthday) / 10000) . '歳';
+		$this->age = floor(((int)$today - (int)$birthday) / 10000);
 		return $this->age;
 	}
 }
@@ -44,12 +45,25 @@ class Profile extends Person{
 	public $hobby ='';
 
 	//各情報を初期化する
-	public function __construct($hometown,$hobby){
+	public function __construct($name,$birthday,$gender,$hometown,$hobby){
+		//親のコンストラクトを呼び出し
+		parent::__construct($name,$birthday,$gender);
 		$this->hometown = $hometown;
 		$this->hobby = $hobby;
 	}
+	//外部で結果を出力したいためアクセス修飾子はpublic
 	public function selfIntroduction(){
-		return '私の名前は'.$this->name.'です。'.$this->age.'才'.$this->gender.'です。'."\n".'出身は'.$this->hometown.'趣味は'.$this->hobby.'です。';
+		//年齢を取得するメソッド呼び出し
+		$this->getAge($this->birthday);
+
+		if($this->gender == 'm'){
+			$gendata = '男性';
+		}else if($this->gender == 'f'){
+			$gendata = '女性';
+		}else{
+			$gendata = '[性別は不明]';
+		}
+		return '私の名前は'.$this->name.'です。'.$this->age.'歳'.$gendata.'です。'."\n".'出身は'.$this->hometown.'趣味は'.$this->hobby.'です。';
 		}
 	}
 
@@ -59,7 +73,7 @@ echo $mypro->name;
 //生年月日出力
 echo $mypro->birthday;
 //性別出力
-echo $mypro->gender;
+echo $mypro->gender."\n";
 //自己紹介文作成
 echo $mypro->selfIntroduction();
 echo $mypro->getAge($mypro -> birthday)."\n";//()の中身は引数としてmyproの中のbirthdayを渡している。
