@@ -1,0 +1,20 @@
+<?php
+//関数生成
+function root(int $v1, int $v2, int $v3){
+
+//累乗計算v1のv2乗を$kekkaに入れる
+  $kekka = pow($v1,$v2);
+
+//もし$kekkaが0よりも小さかったら0を代入する
+  if($kekka <= 0){
+    $kekka = 0;
+  }
+  //もし$kekkaが$v3よりも大きかったら$v3を代入する
+  else if($kekka >= $v3){
+    $kekka = $v3;
+  }
+  echo $kekka;
+}
+//関数使用するときは関数名を記述して実行する
+root(1,1,300000);
+ ?>
